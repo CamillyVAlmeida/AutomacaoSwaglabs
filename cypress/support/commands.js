@@ -7,78 +7,77 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-// Comandos customizados para testes de API
-Cypress.Commands.add('apiLogin', (username, password) => {
-  return cy.request({
-    method: 'POST',
-    url: 'https://www.saucedemo.com/api/auth/login',
-    body: {
-      username: username,
-      password: password
-    },
-    failOnStatusCode: false
+// Comandos personalizados para Allure Report
+Cypress.Commands.add('allureStep', (stepName, stepFunction) => {
+  if (Cypress.env('allure')) {
+    cy.allure().step(stepName, stepFunction);
+  } else {
+    stepFunction();
+  }
+});
+
+Cypress.Commands.add('allureLabel', (name, value) => {
+  if (Cypress.env('allure')) {
+    cy.allure().label(name, value);
+  }
+});
+
+Cypress.Commands.add('allureTag', (tag) => {
+  if (Cypress.env('allure')) {
+    cy.allure().tag(tag);
+  }
+});
+
+Cypress.Commands.add('allureDescription', (description) => {
+  if (Cypress.env('allure')) {
+    cy.allure().description(description);
+  }
+});
+
+Cypress.Commands.add('allureSeverity', (severity) => {
+  if (Cypress.env('allure')) {
+    cy.allure().severity(severity);
+  }
+});
+
+Cypress.Commands.add('allureOwner', (owner) => {
+  if (Cypress.env('allure')) {
+    cy.allure().owner(owner);
+  }
+});
+
+Cypress.Commands.add('allureEpic', (epic) => {
+  if (Cypress.env('allure')) {
+    cy.allure().epic(epic);
+  }
+});
+
+Cypress.Commands.add('allureFeature', (feature) => {
+  if (Cypress.env('allure')) {
+    cy.allure().feature(feature);
+  }
+});
+
+Cypress.Commands.add('allureStory', (story) => {
+  if (Cypress.env('allure')) {
+    cy.allure().story(story);
+  }
+});
+
+// Comando para login reutilizável
+Cypress.Commands.add('login', (username, password) => {
+  cy.allureStep('Realizar login', () => {
+    cy.get('[data-test="username"]').type(username);
+    cy.get('[data-test="password"]').type(password);
+    cy.get('#login-button').click();
   });
 });
 
-Cypress.Commands.add('apiGetProducts', () => {
-  return cy.request({
-    method: 'GET',
-    url: 'https://www.saucedemo.com/api/products',
-    failOnStatusCode: false
+// Comando para adicionar produto ao carrinho
+Cypress.Commands.add('addToCart', (productName) => {
+  cy.allureStep(`Adicionar ${productName} ao carrinho`, () => {
+    cy.contains(productName).click();
+    cy.get('[data-test="add-to-cart"]').click();
   });
-});
-
-Cypress.Commands.add('apiGetCart', () => {
-  return cy.request({
-    method: 'GET',
-    url: 'https://www.saucedemo.com/api/cart',
-    failOnStatusCode: false
-  });
-});
-
-Cypress.Commands.add('apiAddToCart', (productId) => {
-  return cy.request({
-    method: 'POST',
-    url: 'https://www.saucedemo.com/api/cart/add',
-    body: {
-      productId: productId
-    },
-    failOnStatusCode: false
-  });
-});
-
-Cypress.Commands.add('apiCheckout', (checkoutData) => {
-  return cy.request({
-    method: 'POST',
-    url: 'https://www.saucedemo.com/api/checkout',
-    body: checkoutData,
-    failOnStatusCode: false
-  });
-});
-
-Cypress.Commands.add('validateApiResponse', (response, expectedStatus) => {
-  expect(response.status).to.be.oneOf(expectedStatus);
-  return cy.wrap(response);
-});
-
-Cypress.Commands.add('logApiResponse', (response, description) => {
-  cy.log(`${description}:`, response);
-  return cy.wrap(response);
 });
