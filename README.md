@@ -118,12 +118,7 @@ Os testes geram automaticamente:
 
 ## Próximos Passos
 
-- [ ] Implementar testes de API
-- [ ] Adicionar testes de performance
-- [ ] Criar testes de responsividade
-- [ ] Implementar CI/CD
-- [ ] Adicionar relatórios em HTML
-- [ ] Criar testes de regressão
+- [ ] Testar requisições
 
 ## Contribuição
 
