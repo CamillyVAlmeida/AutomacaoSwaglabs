@@ -8,61 +8,17 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-// Comandos personalizados para Allure Report
+// Comandos Allure
 Cypress.Commands.add('allureStep', (stepName, stepFunction) => {
-  if (Cypress.env('allure')) {
-    cy.allure().step(stepName, stepFunction);
-  } else {
-    stepFunction();
-  }
-});
-
-Cypress.Commands.add('allureLabel', (name, value) => {
-  if (Cypress.env('allure')) {
-    cy.allure().label(name, value);
-  }
+  cy.allure().step(stepName, stepFunction);
 });
 
 Cypress.Commands.add('allureTag', (tag) => {
-  if (Cypress.env('allure')) {
-    cy.allure().tag(tag);
-  }
-});
-
-Cypress.Commands.add('allureDescription', (description) => {
-  if (Cypress.env('allure')) {
-    cy.allure().description(description);
-  }
+  cy.allure().tag(tag);
 });
 
 Cypress.Commands.add('allureSeverity', (severity) => {
-  if (Cypress.env('allure')) {
-    cy.allure().severity(severity);
-  }
-});
-
-Cypress.Commands.add('allureOwner', (owner) => {
-  if (Cypress.env('allure')) {
-    cy.allure().owner(owner);
-  }
-});
-
-Cypress.Commands.add('allureEpic', (epic) => {
-  if (Cypress.env('allure')) {
-    cy.allure().epic(epic);
-  }
-});
-
-Cypress.Commands.add('allureFeature', (feature) => {
-  if (Cypress.env('allure')) {
-    cy.allure().feature(feature);
-  }
-});
-
-Cypress.Commands.add('allureStory', (story) => {
-  if (Cypress.env('allure')) {
-    cy.allure().story(story);
-  }
+  cy.allure().severity(severity);
 });
 
 // Comando para login reutilizável

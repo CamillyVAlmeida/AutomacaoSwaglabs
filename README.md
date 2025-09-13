@@ -18,6 +18,7 @@ Este projeto tem como objetivo automatizar testes funcionais e de API para a apl
 - **Cypress** v14.5.3 - Framework de automação de testes
 - **JavaScript** - Linguagem de programação
 - **Node.js** - Runtime environment
+- **Allure Report** v2.41.2 - Geração de relatórios detalhados
 - **Git** - Controle de versão
 
 ## Estrutura do Projeto
@@ -27,16 +28,20 @@ AutomacaoSwaglabs/
 ├── cypress/
 │   ├── e2e/
 │   │   ├── login/
-│   │   │   └── gui_login.cy.js          # Testes de login
+│   │   │   ├── gui_login.cy.js          # Testes de login GUI
+│   │   │   └── api_login.cy.js          # Testes de API e requisições
 │   │   └── compras/
 │   │       └── ComprasComSucesso.cy.js  # Testes de compra
 │   ├── fixtures/
 │   │   └── example.json                 # Dados de teste
+│   ├── screenshots/                     # Screenshots de falhas
 │   └── support/
-│       ├── commands.js                  # Comandos customizados
+│       ├── commands.js                  # Comandos customizados e Allure
 │       └── e2e.js                       # Configurações de suporte
-├── cypress.config.js                    # Configuração do Cypress
-├── package.json                         # Dependências do projeto
+├── allure-results/                      # Resultados dos testes para Allure
+├── allure-report/                       # Relatórios gerados pelo Allure
+├── cypress.config.js                    # Configuração do Cypress + Allure
+├── package.json                         # Dependências e scripts
 └── README.md                           # Documentação
 ```
 
@@ -68,15 +73,37 @@ AutomacaoSwaglabs/
    
    # Executar com interface gráfica
    npx cypress open
+   
+   # Executar testes com Allure Report
+   npm run cy:run:allure
+   
+   # Gerar relatório Allure
+   npm run allure:generate
+   
+   # Abrir relatório Allure
+   npm run allure:open
+   
+   # Executar testes e gerar relatório completo
+   npm run test:allure
    ```
 
 ## Cenários de Teste
 
 ### Testes de Login
 
+#### Testes GUI (gui_login.cy.js)
 - **Login com sucesso** - Validação de credenciais corretas
 - **Login com usuário incorreto** - Teste de validação de usuário
 - **Login com senha incorreta** - Teste de validação de senha
+
+#### Testes de API (api_login.cy.js)
+- **Validação de página principal** - Teste de carregamento da aplicação
+- **Teste de recursos estáticos** - Validação de favicon e assets
+- **Validação de endpoints** - Teste de páginas de inventário e carrinho
+- **Validação de headers** - Verificação de headers HTTP
+- **Teste de estrutura SPA** - Validação de Single Page Application
+- **Teste de CORS e segurança** - Validação de headers de segurança
+- **Teste de performance** - Medição de tempo de resposta
 
 ### Testes de Compra
 
@@ -108,17 +135,50 @@ O arquivo `cypress.config.js` contém as configurações principais do Cypress, 
 ### Comandos Customizados
 O arquivo `cypress/support/commands.js` permite a criação de comandos reutilizáveis para otimizar os testes.
 
+#### Comandos Allure Report
+- `cy.allureStep()` - Cria steps detalhados nos relatórios
+- `cy.allureLabel()` - Adiciona labels aos testes
+- `cy.allureTag()` - Adiciona tags para categorização
+- `cy.allureDescription()` - Adiciona descrições aos testes
+- `cy.allureSeverity()` - Define severidade dos testes
+- `cy.allureOwner()` - Define responsável pelo teste
+- `cy.allureEpic()` - Define épico do teste
+- `cy.allureFeature()` - Define feature do teste
+- `cy.allureStory()` - Define story do teste
+
+#### Comandos de Negócio
+- `cy.login(username, password)` - Comando reutilizável para login
+- `cy.addToCart(productName)` - Comando para adicionar produtos ao carrinho
+
 ## Relatórios e Evidências
 
+### Relatórios Allure
+O projeto utiliza **Allure Report** para gerar relatórios detalhados e interativos:
+
+- **Relatórios HTML interativos** - Visualização rica dos resultados
+- **Timeline de execução** - Cronologia detalhada dos testes
+- **Categorização por severidade** - Organização por criticidade
+- **Screenshots automáticos** - Capturas em caso de falha
+- **Steps detalhados** - Passo a passo de cada teste
+- **Métricas de performance** - Tempo de execução e tendências
+- **Histórico de execuções** - Comparação entre diferentes runs
+
+### Evidências Automáticas
 Os testes geram automaticamente:
 - Screenshots em caso de falha
 - Vídeos das execuções
 - Relatórios detalhados no terminal
 - Logs de debug para análise
+- Dados estruturados para Allure Report
 
 ## Próximos Passos
 
-- [ ] Testar requisições
+- [x] Implementar testes de API e requisições HTTP
+- [x] Integrar Allure Report para relatórios detalhados
+- [x] Criar comandos customizados para reutilização
+- [ ] Implementar testes de performance
+- [ ] Adicionar testes de acessibilidade
+- [ ] Implementar testes de responsividade
 
 ## Contribuição
 

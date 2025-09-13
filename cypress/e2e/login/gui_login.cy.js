@@ -2,21 +2,21 @@
 
 
 describe('Teste funcional de login', () => {
-  it.only('Deve executar login com sucesso', () => {
+  it('Deve executar login com sucesso', () => {
     cy.visit('https://www.saucedemo.com')
     cy.get('[data-test="username"]').type("standard_user")
     cy.get('[data-test="password"]').type("secret_sauce")
     cy.get('#login-button').click()
   });
 
-    it('Validar login incorreto', () => {
+  it('Validar login incorreto', () => {
     cy.visit('https://www.saucedemo.com')
     cy.get('[data-test="username"]').type("standard_user1")
     cy.get('[data-test="password"]').type("secret_sauce")
     cy.get('#login-button').click()
   });
 
-    it.only('Validar senha incorreta', () => {
+  it('Validar senha incorreta', () => {
     cy.visit('https://www.saucedemo.com')
     cy.get('[data-test="username"]').type("standard_user")
     cy.get('[data-test="password"]').type("secret_sauce2")
